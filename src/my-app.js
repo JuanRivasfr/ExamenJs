@@ -1,12 +1,14 @@
 import { LitElement, css, html } from 'lit'
-import { getData } from './js/getData.js'
+import { getData, getDataDetails } from './js/getData.js'
 
 export class Myapp extends LitElement{
 
     static properties = {
 
         movies: {type: Array},
-        informe: {type: String}
+        informe: {type: String},
+        details: {type: Array},
+        idpelicula: {type: String}
         
     }
 
@@ -14,16 +16,28 @@ export class Myapp extends LitElement{
         super()
         this.movies = []
         this.informe = "1" 
+        this.details = []
+        this.idpelicula = "tt12708542"
     }
 
     async connectedCallback(){
         super.connectedCallback();
         await this.obtenerDataMovies();
+        await this.obtenerDetallesMovies(this.idpelicula);
+
     }
 
     async obtenerDataMovies(){
         try {
             this.movies = await getData();
+        } catch(error){
+            console.error('Error al obtener los productos:', error)
+        }
+    }
+
+    async obtenerDetallesMovies(id){
+        try {
+            this.details = await getDataDetails(id);
         } catch(error){
             console.error('Error al obtener los productos:', error)
         }
@@ -599,97 +613,128 @@ export class Myapp extends LitElement{
     }
 
     cargarComponente(){
-
         if (this.informe === '1') {
             
-            const listaProductos = this.products.filter(val => 
-                this.section === 'Todos los productos' || val.categoria.id === this.section
-                );
-                
+            const listaPeliculas = this.movies
+            listaPeliculas.sort((a, b) =>{
+                let yearA = a["#YEAR"]
+                let yearB = b["#YEAR"]
+
+                return yearB -yearA
+            })
             return html`
-                ${listaProductos.map(valproduct => html`
-                <div class="der__cont__cont">
-                    <div class="der__contimg">
-                        <img src="${valproduct.imagen}" alt="">
-                    </div>
-                    <div class="der__inf">
-                        <p>${valproduct.titulo}</p>
-                        <div class="inf__precios">
-                            <p>$${valproduct.precio}</p>
-                            <button id="${valproduct.id}" @click=${
-                                () => this.addCart(valproduct, valproduct.id, valproduct.precio)
-                            }>Agregar</button>
-                        </div>
-                    </div>
-                </div>
-                `)}
-            `
-        }
-        else {
-            
-            let data = JSON.parse(localStorage.getItem('cart')) || []
-
-            if (data.length === 0){
-                return html`
-                    <p id="pcarvacio">Tu carrito esta vacio :c</p>
-                `
-            }
-            else{
-                let cont = 0
-                data.forEach(val =>{
-                    cont = cont + val.subtotal
-                })
-                return html`
-                ${data.map(carProduct => html`
-                <div class="car__cont">
-                    <div class="car__cont__cont">
-                        <div class="car__contimg">
-                            <img src="${carProduct.imagen}" alt="">
-                        </div>
-                        <div class="car__cont__cont__nombre">
-                            <p>Nombre</p>
-                            <p>${carProduct.titulo}</p>
-                        </div>
-                        <div class="car__cont__cont__cantidad">
-                            <p>Cantidad</p>
-                            <p>${carProduct.cantidad}</p>
-                        </div>
-                        <div class="car__cont__cont__precio">
-                            <p>Precio</p>
-                            <p>$${carProduct.precio}</p>
-                        </div>
-                        <div class="car__cont__cont__subtotal">
-                            <p>Subtotal</p>
-                            <p>$${carProduct.subtotal}</p>
-                        </div>
-                        <a href="#" @click=${
-                            () => this.deleteCar(carProduct.id)
-                        }><i class='bx bx-trash'></i></a>
-                    </div>
-                </div>
-                `)}
-                <!---- Vaciar total y comprar ahora ----->
-                <div class="cont__buttons__cart"> 
-                    <button class="buttons__cart__any" @click=${
-                        () => this.clearCart()
-                    }>Vaciar Carrito</button>
-                    <div class="buttons__cart__buy">
-                        <p>Total: ${cont} </p>
-                        <button class="cart__buy__button" @click=${
-                            () => this.compra()
-                        }> Comprar ahora </button>
-                    </div>
-                </div>
+            ${listaPeliculas.map(val => html`
+                <p>Año: ${val["#YEAR"]}</p>
+                <p>Titulo: ${val["#TITLE"]}</p>
+                <p>Actores: ${val["#ACTORS"]}</p>
+                <img src='${val["#IMG_POSTER"]}'>
+                <p>Rango de popularidad: ${val["#RANK"]}</p>
+                <br>
+            `)}
                 
             `
-            }
-            
-            
         }
 
-        
-    }
+        else if(this.informe === '2') {
 
+            const listaPeliculas = this.movies
+            return html`
+            ${listaPeliculas.map(val => html`
+                <p>Titulo: ${val["#TITLE"]}</p>
+                <p>Actores: ${val["#ACTORS"]}</p>
+                <br>
+            `)}
+                
+            `
+
+        }
+
+        else if(this.informe === '3') {
+
+            const listaPeliculas = this.movies
+            listaPeliculas.sort((a, b) =>{
+                let rankA = a["#RANK"]
+                let rankB = b["#RANK"]
+
+                return rankA -rankB
+            })
+            return html`
+            ${listaPeliculas.map(val => html`
+                <p>Rango: ${val["#RANK"]}</p>
+                <p>Titulo: ${val["#TITLE"]}</p>
+                <p>Actores: ${val["#ACTORS"]}</p>
+                <p>Año de lanzamiento: ${val["#YEAR"]}</p>
+                <br>
+            `)}
+                
+            `
+        }
+
+        else if(this.informe === '4'){
+
+            const listaPeliculas = this.movies
+            
+            return html`
+            ${listaPeliculas.map(val => html`
+                <p>Titulo: ${val["#TITLE"]}</p>
+                <br>
+            `)}
+            `
+        }
+        
+        else if(this.informe === '5'){
+
+            const listaPeliculas = this.movies
+            
+            return html`
+            ${listaPeliculas.map(val => html`
+                <p>Titulo: ${val["#TITLE"]}</p>
+                <p>Año: ${val["#YEAR"]}</p>
+                <br>
+            `)}
+            `
+        }
+
+        else if(this.informe === '6'){
+
+            const listaPeliculas = this.movies
+
+            return html`
+            ${listaPeliculas.map(val => html`
+                <p>ID: ${val["#IMDB_ID"]}</p>
+                <p>Titulo: ${val["#TITLE"]}</p>
+                <br>
+            `)}
+            `
+        }
+
+        else if(this.informe === '7'){
+
+            const listaPeliculas = this.movies
+
+            return html`
+            ${listaPeliculas.map(val => html`
+                <p>URL IV: ${val["#IMDB_IV"]}</p>
+                <p>URL Informativa: ${val["#IMDB_URL"]}</p>
+                <p>URL Poster: ${val["#IMG_POSTER"]}</p>
+                <br>
+            `)}
+            `
+        }
+
+        else if(this.informe === '8'){
+
+            const listaPeliculas = this.movies
+
+            return html`
+            ${listaPeliculas.map(val => html`
+                <p>Titulo: ${val["#TITLE"]}</p>
+                <p>Año de lanzamiento: ${val["#YEAR"]}</p>
+                <br>
+            `)}
+            `
+        }
+    }
 
 }
 

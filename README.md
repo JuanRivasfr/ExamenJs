@@ -25,3 +25,20 @@ export const getAll = async() => {
 
 
 }
+
+${listaProductos.map(valproduct => html`
+                <div class="der__cont__cont">
+                    <div class="der__contimg">
+                        <img src="${valproduct.imagen}" alt="">
+                    </div>
+                    <div class="der__inf">
+                        <p>${valproduct.titulo}</p>
+                        <div class="inf__precios">
+                            <p>$${valproduct.precio}</p>
+                            <button id="${valproduct.id}" @click=${
+                                () => this.addCart(valproduct, valproduct.id, valproduct.precio)
+                            }>Agregar</button>
+                        </div>
+                    </div>
+                </div>
+                `)}
