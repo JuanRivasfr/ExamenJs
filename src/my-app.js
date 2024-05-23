@@ -180,7 +180,9 @@ export class Myapp extends LitElement{
         /* SIDEBAR */
 
 
-
+        span{
+            color: var(--blue);
+        }
 
 
         /* CONTENT */
@@ -514,6 +516,10 @@ export class Myapp extends LitElement{
         main .btn-send:hover {
             background: var(--dark-blue);
         }
+
+        .content-data img{
+            width: 400px;
+        }
         /* MAIN */
         /* CONTENT */
 
@@ -624,11 +630,11 @@ export class Myapp extends LitElement{
             })
             return html`
             ${listaPeliculas.map(val => html`
-                <p>Año: ${val["#YEAR"]}</p>
-                <p>Titulo: ${val["#TITLE"]}</p>
-                <p>Actores: ${val["#ACTORS"]}</p>
                 <img src='${val["#IMG_POSTER"]}'>
-                <p>Rango de popularidad: ${val["#RANK"]}</p>
+                <p><span>Año:</span> ${val["#YEAR"]}</p>
+                <p><span>Titulo:</span> ${val["#TITLE"]}</p>
+                <p><span>Actores:</span> ${val["#ACTORS"]}</p>                
+                <p><span>Rango de popularidad:</span> ${val["#RANK"]}</p>
                 <br>
             `)}
                 
@@ -640,8 +646,8 @@ export class Myapp extends LitElement{
             const listaPeliculas = this.movies
             return html`
             ${listaPeliculas.map(val => html`
-                <p>Titulo: ${val["#TITLE"]}</p>
-                <p>Actores: ${val["#ACTORS"]}</p>
+                <p><span>Titulo:</span> ${val["#TITLE"]}</p>
+                <p><span>Actores:</span> ${val["#ACTORS"]}</p>
                 <br>
             `)}
                 
@@ -660,10 +666,10 @@ export class Myapp extends LitElement{
             })
             return html`
             ${listaPeliculas.map(val => html`
-                <p>Rango: ${val["#RANK"]}</p>
-                <p>Titulo: ${val["#TITLE"]}</p>
-                <p>Actores: ${val["#ACTORS"]}</p>
-                <p>Año de lanzamiento: ${val["#YEAR"]}</p>
+                <p><span>Rango:</span> ${val["#RANK"]}</p>
+                <p><span>Titulo:</span> ${val["#TITLE"]}</p>
+                <p><span>Actores:</span> ${val["#ACTORS"]}</p>
+                <p><span>Año de lanzamiento:</span> ${val["#YEAR"]}</p>
                 <br>
             `)}
                 
@@ -676,7 +682,7 @@ export class Myapp extends LitElement{
             
             return html`
             ${listaPeliculas.map(val => html`
-                <p>Titulo: ${val["#TITLE"]}</p>
+                <p><span>Titulo:</span> ${val["#TITLE"]}</p>
                 <br>
             `)}
             `
@@ -688,8 +694,8 @@ export class Myapp extends LitElement{
             
             return html`
             ${listaPeliculas.map(val => html`
-                <p>Titulo: ${val["#TITLE"]}</p>
-                <p>Año: ${val["#YEAR"]}</p>
+                <p><span>Titulo:</span> ${val["#TITLE"]}</p>
+                <p><span>Año:</span> ${val["#YEAR"]}</p>
                 <br>
             `)}
             `
@@ -701,8 +707,8 @@ export class Myapp extends LitElement{
 
             return html`
             ${listaPeliculas.map(val => html`
-                <p>ID: ${val["#IMDB_ID"]}</p>
-                <p>Titulo: ${val["#TITLE"]}</p>
+                <p><span>ID:</span> ${val["#IMDB_ID"]}</p>
+                <p><span>Titulo:</span> ${val["#TITLE"]}</p>
                 <br>
             `)}
             `
@@ -714,9 +720,9 @@ export class Myapp extends LitElement{
 
             return html`
             ${listaPeliculas.map(val => html`
-                <p>URL IV: ${val["#IMDB_IV"]}</p>
-                <p>URL Informativa: ${val["#IMDB_URL"]}</p>
-                <p>URL Poster: ${val["#IMG_POSTER"]}</p>
+                <p><span>URL IV:</span> ${val["#IMDB_IV"]}</p>
+                <p><span>URL Informativa:</span> ${val["#IMDB_URL"]}</p>
+                <p><span>URL Poster:</span> ${val["#IMG_POSTER"]}</p>
                 <br>
             `)}
             `
@@ -728,8 +734,8 @@ export class Myapp extends LitElement{
 
             return html`
             ${listaPeliculas.map(val => html`
-                <p>Titulo: ${val["#TITLE"]}</p>
-                <p>Año de lanzamiento: ${val["#YEAR"]}</p>
+                <p><span>Titulo:</span> ${val["#TITLE"]}</p>
+                <p><span>Año de lanzamiento:</span> ${val["#YEAR"]}</p>
                 <br>
             `)}
             `
